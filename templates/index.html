@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Slider Inputs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+    <h1>Input Sliders</h1>
+
+    <label for="slider100">Value (0 - 100): <span id="value100">50</span></label>
+    <input type="range" id="slider100" min="0" max="100" value="50">
+
+    <label for="slider15">Value (0 - 15): <span id="value15">7</span></label>
+    <input type="range" id="slider15" min="0" max="15" value="7">
+
+    <button id="confirmBtn">Confirm</button>
+    </div>
+
+    <script>
+    const slider100 = document.getElementById('slider100');
+    const slider15 = document.getElementById('slider15');
+    const value100 = document.getElementById('value100');
+    const value15 = document.getElementById('value15');
+    const confirmBtn = document.getElementById('confirmBtn');
+
+    slider100.addEventListener('input', () => {
+        value100.textContent = slider100.value;
+    });
+
+    slider15.addEventListener('input', () => {
+        value15.textContent = slider15.value;
+    });
+
+    confirmBtn.addEventListener('click', async () => {
+        const response = await fetch('/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            slider100: slider100.value,
+            slider15: slider15.value
+        })
+        });
+
+        const result = await response.json();
+        alert(`Server says: ${result.message}`);
+    });
+    </script>
+</body>
+</html>
