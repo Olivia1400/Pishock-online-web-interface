@@ -6,35 +6,45 @@
     <title>Slider Inputs</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-
 <body>
     <div class="container">
     <h1>Input Sliders</h1>
 
-    <label for="slider100">Value (0 - 100): <span id="value100">50</span></label>
-    <input type="range" id="slider100" min="0" max="100" value="50">
+    <label for="intensity">Intensity (0 - 100): <span id="value100">50</span></label>
+    <input type="range" id="intensity" min="0" max="100" value="50">
 
-    <label for="slider15">Value (0 - 15): <span id="value15">7</span></label>
-    <input type="range" id="slider15" min="0" max="15" value="7">
+    <label for="duration">Duration (0 - 15): <span id="value15">7</span></label>
+    <input type="range" id="duration" min="0" max="15" value="7">
 
     <button id="confirmBtn">Confirm</button>
+
+    <div id="output">
+        <p>Intensity: <span id="outputIntensity">50</span></p>
+        <p>Duration: <span id="outputDuration">7</span></p>
+    </div>
     </div>
 
     <script>
-    const slider100 = document.getElementById('slider100');
-    const slider15 = document.getElementById('slider15');
+    const intensitySlider = document.getElementById('intensity');
+    const durationSlider = document.getElementById('duration');
     const value100 = document.getElementById('value100');
     const value15 = document.getElementById('value15');
+    const outputIntensity = document.getElementById('outputIntensity');
+    const outputDuration = document.getElementById('outputDuration');
     const confirmBtn = document.getElementById('confirmBtn');
 
-    slider100.addEventListener('input', () => {
-        value100.textContent = slider100.value;
+    // Update the dynamic value display as sliders are moved
+    intensitySlider.addEventListener('input', () => {
+        value100.textContent = intensitySlider.value;
+        outputIntensity.textContent = intensitySlider.value;
     });
 
-    slider15.addEventListener('input', () => {
-        value15.textContent = slider15.value;
+    durationSlider.addEventListener('input', () => {
+        value15.textContent = durationSlider.value;
+        outputDuration.textContent = durationSlider.value;
     });
 
+    // Handle the confirm button click
     confirmBtn.addEventListener('click', async () => {
         const response = await fetch('/submit', {
         method: 'POST',
@@ -42,8 +52,8 @@
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            slider100: slider100.value,
-            slider15: slider15.value
+            intensity: intensitySlider.value,
+            duration: durationSlider.value
         })
         });
 

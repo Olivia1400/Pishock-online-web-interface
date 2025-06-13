@@ -1,6 +1,3 @@
-import flask
-
-
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
@@ -12,10 +9,10 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.get_json()
-    slider100 = data.get('slider100')
-    slider15 = data.get('slider15')
-    print(f"Received values -> Slider 100: {slider100}, Slider 15: {slider15}")
-    return jsonify({"message": "Values received!", "slider100": slider100, "slider15": slider15})
+    intensity = data.get('intensity')
+    duration = data.get('duration')
+    print(f"Received values -> Intensity: {intensity}, Duration: {duration}")
+    return jsonify({"message": "Values received!", "intensity": intensity, "duration": duration})
 
 if __name__ == '__main__':
-    app.run(host='', port=5000, debug=True)  # port forwarding enabled
+    app.run(host='0.0.0.0', port=5000, debug=True)  # port forwarding enabled
