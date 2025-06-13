@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify, flash
-from interfaces import main
+from interface import main
 
 app = Flask(__name__)
+app.secret_key = '12'
 
 @app.route('/')
 def index():
@@ -10,8 +11,8 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.get_json()
-    intensity = data.get('intensity')
-    duration = data.get('duration')
+    intensity = int(data.get('intensity'))
+    duration = int(data.get('duration'))
     flash(f"Received values -> Intensity: {intensity}, Duration: {duration}")
     return jsonify({"message": "Values received!", "intensity": intensity, "duration": duration}), main(intensity, duration)
 
