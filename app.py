@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, flash
+from interfaces import main
 
 app = Flask(__name__)
 
@@ -11,8 +12,8 @@ def submit():
     data = request.get_json()
     intensity = data.get('intensity')
     duration = data.get('duration')
-    print(f"Received values -> Intensity: {intensity}, Duration: {duration}")
-    return jsonify({"message": "Values received!", "intensity": intensity, "duration": duration})
+    flash(f"Received values -> Intensity: {intensity}, Duration: {duration}")
+    return jsonify({"message": "Values received!", "intensity": intensity, "duration": duration}), main(intensity, duration)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)  # port forwarding enabled
